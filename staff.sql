@@ -14,10 +14,6 @@ grant update (sname) on staff to all_hr;
 grant update (position) on staff to all_hr;
 grant update (department) on staff to all_hr;
 
-create view staff_accountant as
-select sid, sname, position,contact,account from staff;
-grant select on staff_accountant to all_accountant;
-
 CREATE OR REPLACE
 FUNCTION show_own_info(v_schema IN VARCHAR2, v_obj IN VARCHAR2)
 RETURN VARCHAR2 AS condition VARCHAR2 (200);
@@ -25,6 +21,7 @@ BEGIN
 IF INSTR(SYS_CONTEXT('USERENV', 'SESSION_USER'),'COMPANY') = 1 THEN
 		RETURN '';
 END IF;
+
 RETURN 'SID = SYS_CONTEXT(''USERENV'', ''SESSION_USER'' )';
 END show_own_info;
 

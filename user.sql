@@ -20,23 +20,6 @@ create user applicant identified by 123;
 grant all_applicant to applicant;
 
 
-create view staff_basic as
-select sid, sname, position, department, contact from staff;
-grant select on staff_basic to all_staff;
-grant select,update on staff_basic to all_hr;
-grant select on staff_basic to all_accountant;
-
-create view staff_accountant as
-select sid, sname, position, department, contact,account from staff;
-grant select on staff_accountant to all_staff;
-grant update on staff_accountant.account to all_staff;
-grant select on staff_accountant to all_hr;
-grant update on staff_accountant.account to all_hr;
-grant select on staff_accountant to all_accountant;
-grant update on staff_accountant.account to all_accountant;
-
-
-
 /*
 grant connect to hr;
 revoke connect,resource from hr;
