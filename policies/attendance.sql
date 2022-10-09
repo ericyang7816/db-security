@@ -14,7 +14,7 @@ BEGIN
         RETURN '';
     END IF;
 
-    RETURN userGroup;
+    RETURN 'SNAME = ' || sessionName;
 END show_own_attendance;
 
 BEGIN
