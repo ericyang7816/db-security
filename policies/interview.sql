@@ -1,6 +1,3 @@
-grant select, update, insert, delete on interview to all_hr;
-grant select, update on interview to all_staff;
-
 CREATE OR REPLACE FUNCTION show_own_interview(v_schema IN VARCHAR2, v_obj IN VARCHAR2)
     RETURN VARCHAR2 AS
     condition VARCHAR2(200);

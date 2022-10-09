@@ -1,8 +1,3 @@
-grant select on position to all_hr;
-grant select on position to all_accountant;
-grant select on position to all_staff;
-
-
 CREATE OR REPLACE FUNCTION show_own_position_base_salary(v_schema IN VARCHAR2, v_obj IN VARCHAR2)
     RETURN VARCHAR2 AS
     condition    VARCHAR2(200);

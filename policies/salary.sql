@@ -1,7 +1,3 @@
-grant select on salary to all_hr;
-grant select, update, insert on salary to all_accountant;
-grant select on salary to all_staff;
-
 CREATE OR REPLACE FUNCTION show_own_salary(v_schema IN VARCHAR2, v_obj IN VARCHAR2)
     RETURN VARCHAR2 AS
     condition VARCHAR2(200);

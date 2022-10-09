@@ -1,7 +1,3 @@
-grant select, update, insert, delete on attendance to all_hr;
-grant select on attendance to all_accountant;
-grant select on attendance to all_staff;
-
 CREATE OR REPLACE FUNCTION show_own_attendance(v_schema IN VARCHAR2, v_obj IN VARCHAR2)
     RETURN VARCHAR2 AS
     condition VARCHAR2(200);
@@ -18,7 +14,7 @@ BEGIN
         RETURN '';
     END IF;
 
-    RETURN userGroup;
+    RETURN 'SNAME = ' || sessionName;
 END show_own_attendance;
 
 BEGIN

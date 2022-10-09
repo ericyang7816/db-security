@@ -1,18 +1,16 @@
-grant select on project to all_staff;
-
 CREATE OR REPLACE FUNCTION show_secret_project(v_schema IN VARCHAR2, v_obj IN VARCHAR2)
     RETURN VARCHAR2 AS
     condition VARCHAR2(200);
     sessionName VARCHAR2(30);
-    userSecretLever number(10, 2);
+    userSecretLevel number(10, 2);
 BEGIN
    sessionName := SYS_CONTEXT('USERENV', 'SESSION_USER');
     IF sessionName := 'SYSTEM' THEN
         RETURN '';
     END IF;
 
-    userSecretLever := SYS_CONTEXT('VPD_CONTEXT', 'USER_SECRET_LEVEL');
-    RETURN 'SECRET <= ' || userSecretLever;
+    userSecretLevel := SYS_CONTEXT('VPD_CONTEXT', 'USER_SECRET_LEVEL');
+    RETURN 'SECRET <= ' || userSecretLevel;
 END show_secret_project;
 
 BEGIN

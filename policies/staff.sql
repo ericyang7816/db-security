@@ -1,19 +1,3 @@
-grant select on staff to all_hr;
-grant select on staff to all_accountant;
-grant select on staff to all_staff;
-
-
-grant update (contact) on staff to all_staff;
-grant update (account) on staff to all_staff;
-grant update (contact) on staff to all_hr;
-grant update (account) on staff to all_hr;
-grant update (contact) on staff to all_accountant;
-grant update (account) on staff to all_accountant;
-
-grant update (sname) on staff to all_hr;
-grant update (position) on staff to all_hr;
-grant update (department) on staff to all_hr;
-
 CREATE OR REPLACE FUNCTION show_own_info(v_schema IN VARCHAR2, v_obj IN VARCHAR2)
     RETURN VARCHAR2 AS
     condition VARCHAR2(200);

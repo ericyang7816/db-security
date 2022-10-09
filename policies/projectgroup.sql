@@ -1,10 +1,8 @@
-grant select on projectgroup to all_hr;
-grant select, update on projectgroup to all_staff;
-
 CREATE OR REPLACE FUNCTION show_projectgroup(v_schema IN VARCHAR2, v_obj IN VARCHAR2)
     RETURN VARCHAR2 AS
     condition   VARCHAR2(200);
     sessionName VARCHAR2(30);
+    userID      VARCHAR2(30);
     userGroup   VARCHAR2(30);
 BEGIN
     sessionName := SYS_CONTEXT('USERENV', 'SESSION_USER');
@@ -16,7 +14,8 @@ BEGIN
     IF userGroup = 'hr' THEN
         RETURN '';
     END IF;
-    RETURN 'PID IN (SELECT PID FROM PROJECT WHERE LEADER = ' || sessionName || 'OR PARTICIPANT = ' || sessionName;
+    userID := SYS_CONTEXT('VPD_CONTEXT', 'USER_ID');
+    RETURN 'PID IN (SELECT PID FROM PROJECT WHERE LEADER = ' || userID || ' OR PARTICIPANT '|| sessionName;
 END show_projectgroup;
 
 BEGIN
@@ -40,15 +39,16 @@ CREATE OR REPLACE FUNCTION update_projectgroup(v_schema IN VARCHAR2, v_obj IN VA
     RETURN VARCHAR2 AS
     condition   VARCHAR2(200);
     sessionName VARCHAR2(30);
+    userID      VARCHAR2(30);
 
 BEGIN
     sessionName := SYS_CONTEXT('USERENV', 'SESSION_USER');
     IF sessionName := 'SYSTEM' THEN
         RETURN '';
     END IF;
-
-    RETURN 'PID IN (SELECT PID FROM PROJECT WHERE LEADER = ' || sessionName || 'OR PARTICIPANT = ' || sessionName;
-        END update_projectgroup;
+    userID := SYS_CONTEXT('VPD_CONTEXT', 'USER_ID');
+    RETURN 'LEADER = ' || userID;
+END update_projectgroup;
 
 BEGIN
     DBMS_RLS.DROP_POLICY(
