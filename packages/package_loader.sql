@@ -1,4 +1,5 @@
-@vpd_ctx.sql;
+@vpd_ctx.sql
+-- @set_roles.sql
 
 CREATE OR REPLACE TRIGGER ON_CONNECTION_TRI
     AFTER LOGON
@@ -6,3 +7,11 @@ CREATE OR REPLACE TRIGGER ON_CONNECTION_TRI
 BEGIN
     VPD_CTX.SET_VPD_CONTEXT;
 END;
+
+-- BEGIN
+--     SET_ROLES.INITIATE_ROLES('developer');
+--     SET_ROLES.INITIATE_ROLES('accountant');
+--     SET_ROLES.INITIATE_ROLES('applicant');
+--     SET_ROLES.INITIATE_ROLES('hr');
+-- end;
+

@@ -1,6 +1,3 @@
-grant select on projectgroup to all_hr;
-grant select, update on projectgroup to all_staff;
-
 CREATE OR REPLACE FUNCTION show_projectgroup(v_schema IN VARCHAR2, v_obj IN VARCHAR2)
     RETURN VARCHAR2 AS
     condition   VARCHAR2(200);
