@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION show_own_info(v_schema IN VARCHAR2, v_obj IN VARCHAR2
     userRole VARCHAR2(30);
 BEGIN
     sessionName := SYS_CONTEXT('USERENV', 'SESSION_USER');
-    IF sessionName := 'SYSTEM' THEN
+    IF sessionName = 'SYSTEM' THEN
         RETURN '';
     END IF;
 
@@ -41,7 +41,7 @@ CREATE OR REPLACE FUNCTION update_own_info(v_schema IN VARCHAR2, v_obj IN VARCHA
     userRole VARCHAR2(30);
 BEGIN
     sessionName := SYS_CONTEXT('USERENV', 'SESSION_USER');
-    IF sessionName := 'SYSTEM' THEN
+    IF sessionName = 'SYSTEM' THEN
         RETURN '';
     END IF;
 
