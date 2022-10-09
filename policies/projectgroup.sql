@@ -3,19 +3,20 @@ grant select, update on projectgroup to all_staff;
 
 CREATE OR REPLACE FUNCTION show_projectgroup(v_schema IN VARCHAR2, v_obj IN VARCHAR2)
     RETURN VARCHAR2 AS
-    condition VARCHAR2(200);
-    userName  VARCHAR2(30);
-    userGroup VARCHAR2(30);
+    condition   VARCHAR2(200);
+    sessionName VARCHAR2(30);
+    userGroup   VARCHAR2(30);
 BEGIN
-    userName := SYS_CONTEXT('USERENV', 'SESSION_USER');
-    IF userName := 'SYSTEM' THEN
+    sessionName := SYS_CONTEXT('USERENV', 'SESSION_USER');
+    IF sessionName := 'SYSTEM' THEN
         RETURN '';
     END IF;
-    SELECT USER_GROUP INTO userGroup FROM STAFF WHERE SNAME = userName;
+
+    userGroup := SYS_CONTEXT('VPD_CONTEXT', 'USER_GROUP');
     IF userGroup = 'hr' THEN
         RETURN '';
     END IF;
-    RETURN 'PID IN (SELECT PID FROM PROJECT WHERE LEADER = ' || userName || 'OR PARTICIPANT = ' || userName;
+    RETURN 'PID IN (SELECT PID FROM PROJECT WHERE LEADER = ' || sessionName || 'OR PARTICIPANT = ' || sessionName;
 END show_projectgroup;
 
 BEGIN
@@ -37,13 +38,17 @@ END;
 
 CREATE OR REPLACE FUNCTION update_projectgroup(v_schema IN VARCHAR2, v_obj IN VARCHAR2)
     RETURN VARCHAR2 AS
-    condition VARCHAR2(200);
+    condition   VARCHAR2(200);
+    sessionName VARCHAR2(30);
+
 BEGIN
-    IF INSTR(SYS_CONTEXT('USERENV', 'SESSION_USER'), 'COMPANY') = 1 THEN
+    sessionName := SYS_CONTEXT('USERENV', 'SESSION_USER');
+    IF sessionName := 'SYSTEM' THEN
         RETURN '';
     END IF;
-    RETURN 'PID IN (SELECT PID FROM PROJECT WHERE LEADER = (SYS_CONTEXT(''USERENV'', ''SESSION_USER'' )))';
-END update_projectgroup;
+
+    RETURN 'PID IN (SELECT PID FROM PROJECT WHERE LEADER = ' || sessionName || 'OR PARTICIPANT = ' || sessionName;
+        END update_projectgroup;
 
 BEGIN
     DBMS_RLS.DROP_POLICY(
