@@ -1,5 +1,3 @@
-grant select on project to all_staff;
-
 CREATE OR REPLACE FUNCTION show_secret_project(v_schema IN VARCHAR2, v_obj IN VARCHAR2)
     RETURN VARCHAR2 AS
     condition VARCHAR2(200);
