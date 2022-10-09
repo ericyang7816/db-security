@@ -2,7 +2,7 @@ CREATE OR REPLACE FUNCTION show_own_position_base_salary(v_schema IN VARCHAR2, v
     RETURN VARCHAR2 AS
     condition    VARCHAR2(200);
     sessionName     VARCHAR2(30);
-    userGroup    VARCHAR2(30);
+    userRole    VARCHAR2(30);
     userPosition VARCHAR2(30);
 BEGIN
     sessionName := SYS_CONTEXT('USERENV', 'SESSION_USER');
@@ -10,8 +10,8 @@ BEGIN
         RETURN '';
     END IF;
 
-    userGroup := SYS_CONTEXT('VPD_CONTEXT', 'USER_GROUP');
-    IF userGroup = 'hr' OR 'accountant' THEN
+    userRole := SYS_CONTEXT('VPD_CONTEXT', 'USER_ROLE');
+    IF userRole = 'hr' OR 'accountant' THEN
         RETURN '';
     END IF;
     SELECT POSITION INTO userPosition FROM STAFF WHERE SNAME = sessionName;
