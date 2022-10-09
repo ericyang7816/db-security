@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION show_secret_project(v_schema IN VARCHAR2, v_obj IN VA
     userSecretLevel number(10, 2);
 BEGIN
    sessionName := SYS_CONTEXT('USERENV', 'SESSION_USER');
-    IF sessionName := 'SYSTEM' THEN
+    IF sessionName = 'SYSTEM' THEN
         RETURN '';
     END IF;
 

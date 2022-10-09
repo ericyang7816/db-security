@@ -35,6 +35,7 @@ grant update (account) on staff to developer;
 
 create role applicant;
 grant connect to applicant;
+grant select on hire to applicant;
 
 
 

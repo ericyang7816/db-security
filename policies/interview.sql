@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION show_own_interview(v_schema IN VARCHAR2, v_obj IN VAR
     userRole VARCHAR2(30);
 BEGIN
     sessionName := SYS_CONTEXT('USERENV', 'SESSION_USER');
-    IF sessionName := 'SYSTEM' THEN
+    IF sessionName = 'SYSTEM' THEN
         RETURN '';
     END IF;
 

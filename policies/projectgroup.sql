@@ -6,7 +6,7 @@ CREATE OR REPLACE FUNCTION show_projectgroup(v_schema IN VARCHAR2, v_obj IN VARC
     userRole   VARCHAR2(30);
 BEGIN
     sessionName := SYS_CONTEXT('USERENV', 'SESSION_USER');
-    IF sessionName := 'SYSTEM' THEN
+    IF sessionName = 'SYSTEM' THEN
         RETURN '';
     END IF;
 
@@ -43,7 +43,7 @@ CREATE OR REPLACE FUNCTION update_projectgroup(v_schema IN VARCHAR2, v_obj IN VA
 
 BEGIN
     sessionName := SYS_CONTEXT('USERENV', 'SESSION_USER');
-    IF sessionName := 'SYSTEM' THEN
+    IF (sessionName = 'SYSTEM') THEN
         RETURN '';
     END IF;
     userID := SYS_CONTEXT('VPD_CONTEXT', 'USER_ID');
