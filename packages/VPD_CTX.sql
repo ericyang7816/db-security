@@ -6,7 +6,7 @@ CREATE OR REPLACE PACKAGE BODY VPD_CTX IS
     PROCEDURE SET_VPD_CONTEXT IS
         userName        VARCHAR2(30);
         userID          VARCHAR2(30);
-        userGroup       VARCHAR2(30);
+        userRole       VARCHAR2(30);
         userSecretLevel NUMBER;
     BEGIN
         userName := SYS_CONTEXT('USERENV', 'SESSION_USER');
@@ -14,13 +14,13 @@ CREATE OR REPLACE PACKAGE BODY VPD_CTX IS
             RETURN;
         END IF;
 
-        SELECT SID, USER_GROUP, SECRET
-        INTO userID, userGroup, userSecretLevel
+        SELECT SID, ROLE, SECRET
+        INTO userID, userRole, userSecretLevel
         FROM STAFF
         WHERE SNAME = userName;
 
         DBMS_SESSION.set_context('VPD_CONTEXT', 'USER_ID', userID);
-        DBMS_SESSION.set_context('VPD_CONTEXT', 'USER_GROUP', userGroup);
+        DBMS_SESSION.set_context('VPD_CONTEXT', 'USER_ROLE', userRole);
         DBMS_SESSION.set_context('VPD_CONTEXT', 'USER_SECRET_LEVEL', userSecretLevel);
     END SET_VPD_CONTEXT;
 END VPD_CTX;
