@@ -5,8 +5,8 @@ END;
 CREATE OR REPLACE PACKAGE BODY VPD_CTX IS
     PROCEDURE SET_VPD_CONTEXT IS
         userName        VARCHAR2(30);
-        userID          VARCHAR2(255);
-        userGroup       VARCHAR2(255);
+        userID          VARCHAR2(30);
+        userGroup       VARCHAR2(30);
         userSecretLevel NUMBER;
     BEGIN
         userName := SYS_CONTEXT('USERENV', 'SESSION_USER');
