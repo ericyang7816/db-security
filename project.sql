@@ -30,11 +30,14 @@ sa_label_admin.create_label('project_policy',8006,'l_level::',TRUE);
 END;
 
 BEGIN
+SA_POLICY_ADMIN.REMOVE_TABLE_POLICY('project_policy','company','project');
 sa_policy_admin.apply_table_policy
 ( policy_name    => 'project_policy'
 , schema_name    => 'company'
 , table_name     => 'project'
-, table_options  => 'LABEL_DEFAULT, READ_CONTROL,WRITE_CONTROL,HIDE');
+, table_options  => 'LABEL_DEFAULT, READ_CONTROL,WRITE_CONTROL,HIDE'
+, label_function => 'COMPANY.GET_PROJECT_LABEL(:new.SECRET,:new.BUSINESS)'
+, predicate => NULL);
 END;
 BEGIN
 SA_USER_ADMIN.SET_USER_PRIVS('project_policy','company','FULL,PROFILE_ACCESS');
@@ -50,7 +53,35 @@ BEGIN
 sa_user_admin.set_user_labels(policy_name=> 'project_policy',user_name =>'staff1',max_read_label =>'h_level:PAY:');
 sa_user_admin.set_user_labels(policy_name=> 'project_policy',user_name =>'staff2',max_read_label =>'h_level:PAY,MUSIC,MAP:');
 END;
+
+
 BEGIN
 SA_USER_ADMIN.DROP_USER_ACCESS (
 policy_name=> 'staff_info_policy',user_name =>'hr'); 
 END;
+drop PROCEDURE company.GET_PROJECT_LABEL;
+CREATE OR REPLACE function get_project_label (
+  SECRET  IN  VARCHAR2,
+  BUSINESS     IN  VARCHAR2)
+RETURN LBACSYS.LBAC_LABEL AS
+  v_label  VARCHAR2(80);
+BEGIN
+  IF SECRET = 'high' THEN
+     v_label := 'h_level:';
+  ELSIF SECRET = 'mid' THEN
+     v_label := 'm_level:';
+  ELSE
+     v_label := 'l_level:';
+  END IF;
+
+  v_label := v_label || BUSINESS || ':';
+
+  RETURN TO_LBAC_DATA_LABEL('project_policy',v_label);
+END get_project_label;
+grant all on GET_PROJECT_LABEL to company;
+BEGIN
+TO_LBAC_DATA_LABEL('project_policy','l_level:PAY:');
+end;
+UPDATE PROJECT
+SET project_column = CHAR_TO_LABEL('project_policy','l_level::');
+select * from ALL_PROCEDURES where owner = 'COMPANY';

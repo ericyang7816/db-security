@@ -70,5 +70,5 @@ sa_policy_admin.apply_table_policy
 , table_options  => 'LABEL_DEFAULT, READ_CONTROL,WRITE_CONTROL,HIDE');
 END;
 BEGIN
-SA_USER_ADMIN.SET_USER_PRIVS('salary_info_policy','company','FULL,PROFILE_ACCESS');
+SA_USER_ADMIN.SET_USER_PRIVS('staff_info_policy','company','FULL,PROFILE_ACCESS');
 END;
